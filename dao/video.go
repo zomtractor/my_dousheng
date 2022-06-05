@@ -47,12 +47,12 @@ func (*videoDao) UpdateVideo(video *Video) error {
 	videolock.Lock()
 	err := db.Transaction(func(tx *gorm.DB) error {
 		// 在事务中执行一些 db 操作（从这里开始，您应该使用 'tx' 而不是 'db'）
-		if err := db.Save(video).Error; err != nil {
+		if err := tx.Save(video).Error; err != nil {
 			return err
 		}
 		user := NewUserOnceInstance().GetUserByUserID(video.AuthorId)
 		user.VideoCount++
-		if err := db.Save(user).Error; err != nil {
+		if err := tx.Save(user).Error; err != nil {
 			return err
 		}
 		// 返回 nil 提交事务
