@@ -19,12 +19,12 @@ func DisSubscribe(myUid int, hisUid int) error {
 	)
 }
 func GetFollowList(uid int) []*dao.User {
-	relations := dao.NewFollowerOnceInstance().GetCommentsByFollowId(uid)
+	relations := dao.NewFollowerOnceInstance().GetCommentsByFollowerId(uid)
 	users := getUserByFollowID(relations, uid)
 	return users
 }
 func GetFanList(uid int) []*dao.User {
-	relations := dao.NewFollowerOnceInstance().GetCommentsByFollowerId(uid)
+	relations := dao.NewFollowerOnceInstance().GetCommentsByFollowId(uid)
 	users := getUserByFollowerID(relations, uid)
 	return users
 }
