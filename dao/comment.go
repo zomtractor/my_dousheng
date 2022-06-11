@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+//单例
 func NewCommentOnceInstance() *CommentDao {
 	cDaoOnce.Do(
 		func() {
@@ -14,6 +15,7 @@ func NewCommentOnceInstance() *CommentDao {
 	return cDao
 }
 
+// GetCommentsByVideoID 获取评论信息
 func (*CommentDao) GetCommentsByVideoID(vid int) []*Comment {
 	comments := make([]*Comment, 0)
 	err := db.Where("video_id=?", vid).Order("create_time DESC").Find(&comments).Error
@@ -22,6 +24,8 @@ func (*CommentDao) GetCommentsByVideoID(vid int) []*Comment {
 	}
 	return comments
 }
+
+// GetCommentByCommentID 获取评论信息
 func (*CommentDao) GetCommentByCommentID(cid int) *Comment {
 	comments := Comment{}
 	err := db.Where("id=?", cid).Find(&comments).Error
@@ -31,6 +35,27 @@ func (*CommentDao) GetCommentByCommentID(cid int) *Comment {
 	return &comments
 }
 
+// GetCommentsByFollowerId 获取评论
+func (*followerDao) GetCommentsByFollowerId(uid int) []*Follower {
+	followers := make([]*Follower, 0)
+	err := db.Where("follower_id=?", uid).Find(&followers).Error
+	if err != nil && err != sql.ErrNoRows {
+		return nil
+	}
+	return followers
+}
+
+// GetCommentsByFollowId 获取评论
+func (*followerDao) GetCommentsByFollowId(uid int) []*Follower {
+	followers := make([]*Follower, 0)
+	err := db.Where("follow_id=?", uid).Find(&followers).Error
+	if err != nil && err != sql.ErrNoRows {
+		return nil
+	}
+	return followers
+}
+
+// AddComment 添加评论
 func (*CommentDao) AddComment(com *Comment) *Comment {
 	com.CreateTime = time.Now().Unix()
 	commentlock.Lock()
@@ -56,6 +81,8 @@ func (*CommentDao) AddComment(com *Comment) *Comment {
 	}
 	return com
 }
+
+// DeleteComment 删除评论
 func (*CommentDao) DeleteComment(com *Comment) *Comment {
 	commentlock.Lock()
 	err := db.Transaction(func(tx *gorm.DB) error {

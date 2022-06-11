@@ -2,6 +2,7 @@ package service
 
 import "my_dousheng/dao"
 
+// Subscribe 关注
 func Subscribe(myUid int, hisUid int) error {
 	return dao.NewFollowerOnceInstance().AddFollower(
 		&dao.Follower{
@@ -10,6 +11,8 @@ func Subscribe(myUid int, hisUid int) error {
 		},
 	)
 }
+
+// DisSubscribe 取消关注
 func DisSubscribe(myUid int, hisUid int) error {
 	return dao.NewFollowerOnceInstance().DeleteFollower(
 		&dao.Follower{
@@ -18,16 +21,22 @@ func DisSubscribe(myUid int, hisUid int) error {
 		},
 	)
 }
+
+// GetFollowList 获取关注列表
 func GetFollowList(uid int) []*dao.User {
 	relations := dao.NewFollowerOnceInstance().GetCommentsByFollowerId(uid)
 	users := getUserByFollowID(relations, uid)
 	return users
 }
+
+// GetFanList 获取粉丝列表
 func GetFanList(uid int) []*dao.User {
 	relations := dao.NewFollowerOnceInstance().GetCommentsByFollowId(uid)
 	users := getUserByFollowerID(relations, uid)
 	return users
 }
+
+//获取关注用户信息
 func getUserByFollowID(rels []*dao.Follower, uid int) []*dao.User {
 	uDao := dao.NewUserOnceInstance()
 	var u *dao.User
@@ -39,6 +48,8 @@ func getUserByFollowID(rels []*dao.Follower, uid int) []*dao.User {
 	}
 	return users
 }
+
+//获取关注用户信息
 func getUserByFollowerID(rels []*dao.Follower, uid int) []*dao.User {
 	uDao := dao.NewUserOnceInstance()
 	var u *dao.User

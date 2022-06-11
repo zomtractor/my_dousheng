@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// GetFeed 获取推流
 func GetFeed(uid int, late int64, cnt int) []*dao.Video {
 	videos := dao.NewVideoOnceInstance().GetVideos(late)
 	if videos == nil {
@@ -22,6 +23,7 @@ func GetFeed(uid int, late int64, cnt int) []*dao.Video {
 	return videos
 }
 
+//完善点赞信息
 func setFavoriteByVideos(videos []*dao.Video, uid int) {
 	favoriteDao := dao.NewFavoriteOnceInstance()
 	var f *dao.Favorite
@@ -33,6 +35,7 @@ func setFavoriteByVideos(videos []*dao.Video, uid int) {
 	}
 }
 
+//完善关注信息
 func setIsFollower(followId, followerId int, user *dao.User) {
 	followDao := dao.NewFollowerOnceInstance()
 	rel := followDao.GetFollowerByIDs(followId, followerId)
@@ -40,6 +43,8 @@ func setIsFollower(followId, followerId int, user *dao.User) {
 		user.IsFollow = true
 	}
 }
+
+//完善用户信息
 func setUser(uid int, videos []*dao.Video) {
 	uDao := dao.NewUserOnceInstance()
 	var u *dao.User

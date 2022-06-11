@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-//获取评论列表
+// CommentList 获取评论列表
 func CommentList(c *gin.Context) {
 	vid, _ := strconv.Atoi(c.Query("video_id"))
 	comments := service.GetComentList(vid)
@@ -28,7 +28,7 @@ func CommentList(c *gin.Context) {
 	}
 }
 
-//发表评论
+// CommentAction 发表评论
 func CommentAction(c *gin.Context) {
 	vid, _ := strconv.Atoi(c.Query("video_id"))
 	actionType := c.Query("action_type")

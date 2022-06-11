@@ -2,6 +2,7 @@ package service
 
 import "my_dousheng/dao"
 
+// Favorite 点赞
 func Favorite(uid int, vid int) error {
 	return dao.NewFavoriteOnceInstance().AddFavoriteToSql(
 		&dao.Favorite{
@@ -10,6 +11,8 @@ func Favorite(uid int, vid int) error {
 		},
 	)
 }
+
+// DisFavorite 取消点赞
 func DisFavorite(uid int, vid int) error {
 	return dao.NewFavoriteOnceInstance().DeleteFavoriteFromSql(
 		&dao.Favorite{
@@ -18,11 +21,15 @@ func DisFavorite(uid int, vid int) error {
 		},
 	)
 }
+
+// GetFavoriteList 获取点赞列表
 func GetFavoriteList(uid int) []*dao.Video {
 	favorites := dao.NewFavoriteOnceInstance().GetFavoritesByUid(uid)
 	videos := getVideosFromFavorites(favorites)
 	return videos
 }
+
+//获取点赞视频列表
 func getVideosFromFavorites(favorites []*dao.Favorite) []*dao.Video {
 	if favorites == nil {
 		return nil

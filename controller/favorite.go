@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-//点赞/取消点赞
+// FavoriteAction 点赞/取消点赞
 func FavoriteAction(c *gin.Context) {
 	vid, _ := strconv.Atoi(c.Query("video_id"))
 	actionType := c.Query("action_type")
@@ -37,7 +37,7 @@ func FavoriteAction(c *gin.Context) {
 
 }
 
-//用户点赞列表
+// FavoriteList 用户点赞列表
 func FavoriteList(c *gin.Context) {
 	uid, _ := strconv.Atoi(c.Query("user_id"))
 	ok := checkToken(c)

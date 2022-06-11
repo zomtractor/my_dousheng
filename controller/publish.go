@@ -1,13 +1,15 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"my_dousheng/service"
+	"os/exec"
 	"path"
 	"strconv"
 )
 
-//视频列表
+// PublishList 视频列表
 func PublishList(c *gin.Context) {
 	if checkToken(c) <= 0 {
 		c.JSON(200, PublishListResponse{
@@ -37,7 +39,7 @@ func PublishList(c *gin.Context) {
 	}
 }
 
-//发布视频
+// PublishLogin 发布视频
 func PublishLogin(c *gin.Context) {
 	title := c.PostForm("title")
 	uid := service.CheckToken(c.PostForm("token"))
@@ -68,10 +70,15 @@ func PublishLogin(c *gin.Context) {
 			}})
 		return
 	}
-	videoUrl := service.Url_pf + strconv.FormatInt(int64(video.Id), 10) + path.Ext(file.Filename)
-	err = c.SaveUploadedFile(file, videoUrl)
+	videoUrl := strconv.FormatInt(int64(video.Id), 10) + path.Ext(file.Filename)
+	coverUrl := strconv.FormatInt(int64(video.Id), 10) + ".jpg"
+	err = c.SaveUploadedFile(file, service.Url_pf+videoUrl)
 	if err != nil {
 		return
+	}
+	err = exec.Command("../public", "ffmpeg -i"+videoUrl+" "+coverUrl+" -ss 00:00:00  -r 1 -vframes 1 -an -vcodec mjpeg").Start()
+	if err != nil {
+		fmt.Println("error")
 	}
 
 	c.JSON(200, PublishActionResponse{

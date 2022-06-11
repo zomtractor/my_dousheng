@@ -61,8 +61,8 @@ type Follower struct {
 type followerDao struct {
 }
 
-//当前环境
-type nowAccount struct {
+// NowAccount 当前环境
+type NowAccount struct {
 	NowUser map[int]*User
 	Token   map[string]int
 }
@@ -76,7 +76,7 @@ type Favorite struct {
 type favoriteDao struct {
 }
 
-//单例
+//单例对象
 var (
 	uDao        *userDao
 	userOnce    sync.Once
@@ -84,7 +84,7 @@ var (
 	videoOnce   sync.Once
 	cDao        *CommentDao
 	cDaoOnce    sync.Once
-	account     *nowAccount
+	account     *NowAccount
 	accountOnce sync.Once
 	fDao        *followerDao
 	fDaoOnce    sync.Once

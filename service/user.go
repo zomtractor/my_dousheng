@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// Register 用户注册
 func Register(username string, password string) (int, string) {
 	userdao := dao.NewUserOnceInstance()
 	user := userdao.GetUserByUsername(username)
@@ -31,6 +32,7 @@ func Register(username string, password string) (int, string) {
 	return u.Id, token
 }
 
+// LoginByPassword 用户登录
 func LoginByPassword(username string, password string) (int, string) {
 	userdao := dao.NewUserOnceInstance()
 	user := userdao.GetUserByUsername(username)
@@ -46,6 +48,7 @@ func LoginByPassword(username string, password string) (int, string) {
 	}
 }
 
+// GetUserByToken 根据用户token获取用户对象
 func GetUserByToken(token string) *dao.User {
 	t := CheckToken(token)
 	if t == -1 {
@@ -54,6 +57,8 @@ func GetUserByToken(token string) *dao.User {
 	accountDao := dao.NewNowAccountOnceInstance()
 	return accountDao.NowUser[accountDao.Token[token]]
 }
+
+// GetUserByID 根据id获取用户对象
 func GetUserByID(id int) *dao.User {
 	user := dao.NewUserOnceInstance().GetUserByUserID(id)
 	if user == nil {
@@ -62,7 +67,7 @@ func GetUserByID(id int) *dao.User {
 	return filterSensitive(user)
 }
 
-//检查token是否有效
+// CheckToken 检查token是否有效
 func CheckToken(token string) int {
 	id, ok := dao.NewNowAccountOnceInstance().Token[token]
 	if ok {
@@ -87,6 +92,7 @@ func getHashAndSalt(password string, salt string) string {
 	return hash
 }
 
+//过滤关键信息
 func filterSensitive(u *dao.User) *dao.User {
 	u.Salt = ""
 	u.Hash = ""

@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-//关注/取消关注
+// RelationAction 关注/取消关注
 func RelationAction(c *gin.Context) {
 	toUserId, _ := strconv.Atoi(c.Query("to_user_id"))
 	actionType := c.Query("action_type")
@@ -39,7 +39,7 @@ func RelationAction(c *gin.Context) {
 	}
 }
 
-//获取关注列表
+// RelationFollowList 获取关注列表
 func RelationFollowList(c *gin.Context) {
 	uid, _ := strconv.Atoi(c.Query("user_id"))
 	ok := checkToken(c)
@@ -60,7 +60,7 @@ func RelationFollowList(c *gin.Context) {
 	})
 }
 
-//获取粉丝列表
+// RelationFollowerList 获取粉丝列表
 func RelationFollowerList(c *gin.Context) {
 	uid, _ := strconv.Atoi(c.Query("user_id"))
 	ok := checkToken(c)

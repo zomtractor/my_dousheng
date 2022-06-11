@@ -13,6 +13,7 @@ func NewVideoOnceInstance() *videoDao {
 	return vDao
 }
 
+// AddVideoToSql 添加视频
 func (*videoDao) AddVideoToSql(video *Video) *Video {
 	videolock.Lock()
 	tx := db.Create(video)
@@ -25,6 +26,7 @@ func (*videoDao) AddVideoToSql(video *Video) *Video {
 	return nil
 }
 
+// GetVideosByUid 获取视频
 func (*videoDao) GetVideosByUid(uid int) []*Video {
 	videos := make([]*Video, 0)
 	err := db.Where("author_id = ?", uid).Find(&videos).Error
@@ -34,6 +36,7 @@ func (*videoDao) GetVideosByUid(uid int) []*Video {
 	return videos
 }
 
+// GetVideoByVid 获取视频
 func (*videoDao) GetVideoByVid(vid int) *Video {
 	video := &Video{}
 	err := db.Where("id = ?", vid).Find(&video).Error
@@ -43,6 +46,7 @@ func (*videoDao) GetVideoByVid(vid int) *Video {
 	return video
 }
 
+// UpdateVideo 更新视频信息
 func (*videoDao) UpdateVideo(video *Video) error {
 	videolock.Lock()
 	err := db.Transaction(func(tx *gorm.DB) error {
@@ -62,6 +66,7 @@ func (*videoDao) UpdateVideo(video *Video) error {
 	return err
 }
 
+// GetVideos 获取视频
 func (*videoDao) GetVideos(lastTime int64) []*Video {
 	videos := make([]*Video, 0)
 	err := db.Where("create_time<?", lastTime).Limit(30).Order("create_time DESC").Find(&videos).Error

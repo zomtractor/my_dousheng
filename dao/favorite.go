@@ -14,12 +14,14 @@ func NewFavoriteOnceInstance() *favoriteDao {
 	return faDao
 }
 
+// GetFavorite 获取点赞信息
 func (*favoriteDao) GetFavorite(userID, videoID int) *Favorite {
 	favorite := &Favorite{}
 	db.Where("user_id=? and video_id=?", userID, videoID).Find(favorite)
 	return favorite
 }
 
+// GetFavoritesByUid 获取点赞信息
 func (*favoriteDao) GetFavoritesByUid(userID int) []*Favorite {
 	favorites := make([]*Favorite, 0)
 	err := db.Where("user_id=?", userID).Find(&favorites).Error
@@ -29,6 +31,7 @@ func (*favoriteDao) GetFavoritesByUid(userID int) []*Favorite {
 	return favorites
 }
 
+// AddFavoriteToSql 添加点赞信息
 func (*favoriteDao) AddFavoriteToSql(f *Favorite) error {
 	favoritedlock.Lock()
 	err := db.Transaction(func(tx *gorm.DB) error {
@@ -59,6 +62,7 @@ func (*favoriteDao) AddFavoriteToSql(f *Favorite) error {
 	return err
 }
 
+// DeleteFavoriteFromSql 删除点赞信息
 func (*favoriteDao) DeleteFavoriteFromSql(f *Favorite) error {
 	favoritedlock.Lock()
 	err := db.Transaction(func(tx *gorm.DB) error {

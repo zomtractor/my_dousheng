@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-//用户注册
+// Register 用户注册
 func Register(c *gin.Context) {
 	username := c.Query("username")
 	password := c.Query("password")
@@ -39,7 +39,7 @@ func Register(c *gin.Context) {
 	}
 }
 
-//用户信息
+// Action 用户信息
 func Action(c *gin.Context) {
 	uid, _ := strconv.Atoi(c.Query("user_id"))
 	if checkToken(c) <= 0 {
@@ -71,7 +71,7 @@ func Action(c *gin.Context) {
 	}
 }
 
-//用户登陆
+// Login 用户登陆
 func Login(c *gin.Context) {
 	username := c.Query("username")
 	password := c.Query("password")
@@ -95,6 +95,7 @@ func Login(c *gin.Context) {
 	}
 }
 
+//检查token，返回用户uid，失败则返回-1
 func checkToken(c *gin.Context) int {
 	token := c.Query("token")
 

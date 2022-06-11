@@ -14,24 +14,7 @@ func NewFollowerOnceInstance() *followerDao {
 	return fDao
 }
 
-func (*followerDao) GetCommentsByFollowerId(uid int) []*Follower {
-	followers := make([]*Follower, 0)
-	err := db.Where("follower_id=?", uid).Find(&followers).Error
-	if err != nil && err != sql.ErrNoRows {
-		return nil
-	}
-	return followers
-}
-
-func (*followerDao) GetCommentsByFollowId(uid int) []*Follower {
-	followers := make([]*Follower, 0)
-	err := db.Where("follow_id=?", uid).Find(&followers).Error
-	if err != nil && err != sql.ErrNoRows {
-		return nil
-	}
-	return followers
-}
-
+// AddFollower 添加关注
 func (*followerDao) AddFollower(f *Follower) error {
 	followerdlock.Lock()
 	err := db.Transaction(func(tx *gorm.DB) error {
@@ -62,6 +45,7 @@ func (*followerDao) AddFollower(f *Follower) error {
 	return err
 }
 
+// DeleteFollower 取消关注
 func (*followerDao) DeleteFollower(f *Follower) error {
 	followerdlock.Lock()
 	err := db.Transaction(func(tx *gorm.DB) error {
@@ -93,6 +77,7 @@ func (*followerDao) DeleteFollower(f *Follower) error {
 	return err
 }
 
+// GetFollowerByIDs 获取关注信息
 func (*followerDao) GetFollowerByIDs(followID, followerId int) *Follower {
 	follow := &Follower{}
 	err := db.Where("follow_id=? and follower_id=?", followID, followerId).Find(follow).Error

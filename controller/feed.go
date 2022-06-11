@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-//获取推流
+// FeedAction 获取推流
 func FeedAction(c *gin.Context) {
 	lateTime := c.Query("latest_time")
 	late, err := strconv.ParseInt(lateTime, 10, 64)

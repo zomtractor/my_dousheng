@@ -1,9 +1,9 @@
 package dao
 
-func NewNowAccountOnceInstance() *nowAccount {
+func NewNowAccountOnceInstance() *NowAccount {
 	accountOnce.Do(
 		func() {
-			account = &nowAccount{
+			account = &NowAccount{
 				make(map[int]*User, 0),
 				make(map[string]int, 0),
 			}
@@ -13,7 +13,8 @@ func NewNowAccountOnceInstance() *nowAccount {
 	return account
 }
 
-func (acc *nowAccount) UpdateAccount(token string, user *User) {
+// UpdateAccount 更新信息
+func (acc *NowAccount) UpdateAccount(token string, user *User) {
 	mapLock.Lock()
 	acc.NowUser[user.Id] = user
 	acc.Token[token] = user.Id

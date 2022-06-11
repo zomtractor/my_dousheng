@@ -7,6 +7,7 @@ import (
 	"sync"
 )
 
+//数据库对象和锁
 var (
 	db            *gorm.DB
 	userlock      sync.Mutex
@@ -17,6 +18,7 @@ var (
 	mapLock       sync.Mutex
 )
 
+//初始化db
 func InitDBTool() {
 	dsn := "ds:1234@tcp(139.224.105.6:3306)/dou_sheng?charset=utf8mb4&parseTime=True&loc=Local"
 	var err error
