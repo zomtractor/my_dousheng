@@ -1,8 +1,8 @@
 package tools
 
 import (
+	"my_dousheng/controller"
 	"my_dousheng/dao"
-	"my_dousheng/router"
 	"sync"
 )
 
@@ -14,7 +14,7 @@ func Init() {
 		sy.Done()
 	}()
 	go func() {
-		router.InitRouter()
+		controller.InitRouter()
 		sy.Done()
 	}()
 	sy.Wait()
