@@ -16,7 +16,7 @@ func ParseVedio(title string, uid int, ext string) *dao.Video {
 		CreateTime: time.Now().Unix(),
 	})
 	videoUrl := strconv.FormatInt(int64(video.Id), 10) + ext
-	coverUrl := strconv.FormatInt(int64(video.Id), 10) + ".jpg"
+	coverUrl := "bk.jpg"
 	video.PlayUrl = Url_pf + videoUrl
 	video.CoverUrl = Url_pf + coverUrl
 	err := dao.NewVideoOnceInstance().UpdateVideo(video)

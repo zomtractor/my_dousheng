@@ -17,10 +17,16 @@ func Register(username string, password string) (int, string) {
 	}
 	salt := strconv.FormatInt(time.Now().Unix(), 10)
 	hash := getHashAndSalt(password, salt)
+	avater := Url_pf + "avatar.jpg"
+	signature := "记录美好生活"
+	bg := Url_pf + "background_image.jpg"
 	u := &dao.User{
-		Name: username,
-		Salt: salt,
-		Hash: hash,
+		Name:            username,
+		Salt:            salt,
+		Hash:            hash,
+		Avatar:          avater,
+		Signature:       signature,
+		BackgroundImage: bg,
 	}
 	u = userdao.AddUserToSql(u)
 	if u == nil {

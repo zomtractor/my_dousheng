@@ -1,10 +1,8 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"my_dousheng/service"
-	"os/exec"
 	"path"
 	"strconv"
 )
@@ -71,16 +69,11 @@ func PublishLogin(c *gin.Context) {
 		return
 	}
 	videoUrl := strconv.FormatInt(int64(video.Id), 10) + path.Ext(file.Filename)
-	coverUrl := strconv.FormatInt(int64(video.Id), 10) + ".jpg"
+	//coverUrl := strconv.FormatInt(int64(video.Id), 10) + ".jpg"
 	err = c.SaveUploadedFile(file, service.Url_pf+videoUrl)
 	if err != nil {
 		return
 	}
-	err = exec.Command("../public", "ffmpeg -i"+videoUrl+" "+coverUrl+" -ss 00:00:00  -r 1 -vframes 1 -an -vcodec mjpeg").Start()
-	if err != nil {
-		fmt.Println("error")
-	}
-
 	c.JSON(200, PublishActionResponse{
 		BaseResponse: BaseResponse{
 			StatusCode: 0,
