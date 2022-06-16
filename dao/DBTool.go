@@ -20,7 +20,7 @@ var (
 
 //初始化db
 func InitDBTool() {
-	dsn := "ds:1234@tcp(139.224.105.6:3306)/dou_sheng?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "//先擦掉了"
 	var err error
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	//db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
